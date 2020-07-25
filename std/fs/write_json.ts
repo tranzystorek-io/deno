@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Replacer = (key: string, value: any) => any;
 
-export interface WriteJsonOptions {
+export interface WriteJsonOptions extends Deno.WriteFileOptions {
   replacer?: Array<number | string> | Replacer;
   spaces?: number | string;
 }
@@ -33,7 +33,11 @@ export async function writeJson(
   options: WriteJsonOptions = {},
 ): Promise<void> {
   const jsonContent = serialize(filePath, object, options);
-  await Deno.writeTextFile(filePath, jsonContent);
+  await Deno.writeTextFile(filePath, jsonContent, {
+    append: options.append,
+    create: options.create,
+    mode: options.mode,
+  });
 }
 
 /* Writes an object to a JSON file. */
@@ -44,5 +48,9 @@ export function writeJsonSync(
   options: WriteJsonOptions = {},
 ): void {
   const jsonContent = serialize(filePath, object, options);
-  Deno.writeTextFileSync(filePath, jsonContent);
+  Deno.writeTextFileSync(filePath, jsonContent, {
+    append: options.append,
+    create: options.create,
+    mode: options.mode,
+  });
 }
