@@ -16,7 +16,7 @@ Deno.test("writeJsonIfNotExists", async function (): Promise<void> {
 
   await assertThrowsAsync(
     async (): Promise<void> => {
-      await writeJson(notExistsJsonFile, { a: "1" });
+      await writeJson(notExistsJsonFile, { a: "1" }, { appendNewline: true });
       throw new Error("should write success");
     },
     Error,
@@ -38,7 +38,7 @@ Deno.test("writeJsonIfExists", async function (): Promise<void> {
 
   await assertThrowsAsync(
     async (): Promise<void> => {
-      await writeJson(existsJsonFile, { a: "1" });
+      await writeJson(existsJsonFile, { a: "1" }, { appendNewline: true });
       throw new Error("should write success");
     },
     Error,
@@ -64,7 +64,11 @@ Deno.test("writeJsonIfExistsAnInvalidJson", async function (): Promise<void> {
 
   await assertThrowsAsync(
     async (): Promise<void> => {
-      await writeJson(existsInvalidJsonFile, { a: "1" });
+      await writeJson(
+        existsInvalidJsonFile,
+        { a: "1" },
+        { appendNewline: true },
+      );
       throw new Error("should write success");
     },
     Error,
@@ -87,7 +91,11 @@ Deno.test("writeJsonWithSpaces", async function (): Promise<void> {
 
   await assertThrowsAsync(
     async (): Promise<void> => {
-      await writeJson(existsJsonFile, { a: "1" }, { spaces: 2 });
+      await writeJson(
+        existsJsonFile,
+        { a: "1" },
+        { appendNewline: true, spaces: 2 },
+      );
       throw new Error("should write success");
     },
     Error,
@@ -113,9 +121,7 @@ Deno.test("writeJsonWithReplacer", async function (): Promise<void> {
       await writeJson(
         existsJsonFile,
         { a: "1", b: "2", c: "3" },
-        {
-          replacer: ["a"],
-        },
+        { appendNewline: true, replacer: ["a"] },
       );
       throw new Error("should write success");
     },
@@ -136,7 +142,7 @@ Deno.test("writeJsonSyncIfNotExists", function (): void {
 
   assertThrows(
     (): void => {
-      writeJsonSync(notExistsJsonFile, { a: "1" });
+      writeJsonSync(notExistsJsonFile, { a: "1" }, { appendNewline: true });
       throw new Error("should write success");
     },
     Error,
@@ -158,7 +164,7 @@ Deno.test("writeJsonSyncIfExists", function (): void {
 
   assertThrows(
     (): void => {
-      writeJsonSync(existsJsonFile, { a: "1" });
+      writeJsonSync(existsJsonFile, { a: "1" }, { appendNewline: true });
       throw new Error("should write success");
     },
     Error,
@@ -184,7 +190,7 @@ Deno.test("writeJsonSyncIfExistsAnInvalidJson", function (): void {
 
   assertThrows(
     (): void => {
-      writeJsonSync(existsInvalidJsonFile, { a: "1" });
+      writeJsonSync(existsInvalidJsonFile, { a: "1" }, { appendNewline: true });
       throw new Error("should write success");
     },
     Error,
@@ -207,7 +213,11 @@ Deno.test("writeJsonWithSpaces", function (): void {
 
   assertThrows(
     (): void => {
-      writeJsonSync(existsJsonFile, { a: "1" }, { spaces: 2 });
+      writeJsonSync(
+        existsJsonFile,
+        { a: "1" },
+        { appendNewline: true, spaces: 2 },
+      );
       throw new Error("should write success");
     },
     Error,
@@ -236,9 +246,7 @@ Deno.test("writeJsonWithReplacer", function (): void {
       writeJsonSync(
         existsJsonFile,
         { a: "1", b: "2", c: "3" },
-        {
-          replacer: ["a"],
-        },
+        { appendNewline: true, replacer: ["a"] },
       );
       throw new Error("should write success");
     },
